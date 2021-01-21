@@ -1,5 +1,4 @@
-<?php ?>
-    <!doctype html>
+<!doctype html>
     <html lang="en">
     <head>
         <!-- Required meta tags -->
@@ -10,45 +9,27 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
               crossorigin="anonymous">
-        <link rel="stylesheet" href="css/bootstrap.min.css"
+        <link rel="stylesheet" href="css/bootstrap.css"
         <title></title>
     </head>
 <body>
 
 <div class="container">
-<?php $validacija = [];
-if (isset($_POST['send'])): ?>
+<?php if (isset($_POST['send'])):?>
 
-    <?php
-    if (!preg_match('/[A-Z]./', $_POST['name'])) {
-        $validacija[] = "Neteisingai ivestas vardas";
-    }
-    if (!preg_match('/[A-Z]./', $_POST['lastname'])) {
-        $validacija[] = "Neteisingai ivesta pavarde";
-    }
-    if (!preg_match('/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/', $_POST['email'])) {
-        $validacija[] = "Neteisingai ivestas el. pastas";
-    }
-    if (!preg_match('/^\w{1,200}$/', $_POST['message'])) {
-        $validacija[] = "Neteisingai ivestas pranesimas";
-    } ?>
 
-<?php endif; ?>
-<?php if (isset($_POST['send']) & empty($validacija)): ?>
+<?php validate($_POST);?>
+<?php if (empty($validacija)):?>
     <section>
         <h2>Formos duomenys</h2>
         <ul>
-            <?php foreach ($_POST as $data => $value): ?>
-                <?php if ($data != "send"): ?>
-                    <li><span><?= htmlspecialchars($data); ?>: <?= htmlspecialchars(ucfirst($value)); ?></span></li>
-                <?php endif; ?>
-            <?php endforeach; ?>
+            <?php printData();?>
         </ul>
     </section>
-
 <?php else: ?>
+
 <?php foreach ($validacija as $klaida): ?>
-    <div class="alert alert-danger" role="alert"><? $klaida; ?></div>
+    <div class="alert alert-danger" role="alert"><?=$klaida; ?></div>
 <?php endforeach; ?>
 
     <form method="get">
@@ -73,7 +54,7 @@ if (isset($_POST['send'])): ?>
             </div>
             <select class="custom-select" id="inputGroupSelect01" name="department">
                 <?php foreach ($company as $comp): ?>
-                    <option value=""><?= $comp; ?></option>
+                    <option value="<?=$comp;?>"><?= $comp; ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -103,3 +84,4 @@ if (isset($_POST['send'])): ?>
     </body>
     </html>
 <?php endif; ?>
+<?php endif;?>
